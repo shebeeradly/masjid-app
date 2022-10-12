@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.10.0",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.20"
+  },
+  "projectConfig": {
+    "mongoConnectionUrl": "mongodb+srv://shebeeradly:786bismillah@cluster0.biy8d.mongodb.net/test",
+    "serverIp": "192.168.1.47",
+    "serverPort": "3000"
+  }
+}
