@@ -11,6 +11,9 @@ import { Display } from '../utils';
 import LinearGradient from 'react-native-linear-gradient';
 import AuthenticationService from '../services/AuthenticationService';
 import LottieView from 'lottie-react-native';
+import {useDispatch,useSelector} from 'react-redux';
+import { GeneralAction } from '../actions';
+import StorageService from '../services/StorageService';
 
 const inputStyle = state => {
   switch (state) {
@@ -41,7 +44,7 @@ const inputStyle = state => {
   }
 };
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, setToken }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const [isEnabled, setIsEnabled] = useState(false);
@@ -56,6 +59,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const firstInput = useRef();
   const secondInput = useRef();
+  const dispatch = useDispatch()
 
   const register = () => {
     let user = {
@@ -71,9 +75,14 @@ const RegisterScreen = ({ navigation }) => {
           setErrorMessage('')
           setLoading(true)
           AuthenticationService.register(user).then(response => {
-            setLoading(false)
-            // isEnabled ? console.log(response) : console.warn(response);
-            if (!response?.status) {
+           
+            if (response?.status) {
+              setLoading(false)
+              dispatch(GeneralAction.setToken(response?.data));
+              StorageService.setFirstTimeUse().then(() => {
+                dispatch(GeneralAction.setIsFirstTimeUse())
+              })
+            } else {
               setErrorMessage(response?.message)
             }
           })

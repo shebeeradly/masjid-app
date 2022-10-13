@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import {
-    View, Text, StyleSheet, TextInput, StatusBar, TouchableOpacity, Pressable
+    View, Text, StyleSheet, TextInput, StatusBar,
+    TouchableOpacity, Pressable, Modal
 } from 'react-native';
 import Masjid from '../assets/images/masjidlog.svg';
 import { Seperator } from '../components';
@@ -10,6 +11,9 @@ import Thumb from '../assets/images/thumb.svg';
 import LinearGradient from 'react-native-linear-gradient';
 import AuthenticationService from '../services/AuthenticationService';
 import LottieView from 'lottie-react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import { GeneralAction } from '../actions';
+import StorageService from '../services/StorageService';
 
 const inputStyle = state => {
     switch (state) {
@@ -38,7 +42,7 @@ const inputStyle = state => {
     }
 }
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation}) => {
 
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false)
@@ -46,7 +50,9 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [existErrorMessage, setExistErrorMessage] = useState('');
     const [emailState, setEmailState] = useState('default');
+    const [modalVisible, setModalVisible] = useState(false);
 
+    const dispatch = useDispatch();
     const firstInput = useRef();
 
     const login = async () => {
@@ -58,7 +64,9 @@ const LoginScreen = ({ navigation }) => {
         AuthenticationService.login(user).then(response => {
             setLoading(false);
             if (response?.status) {
-                console.log(response?.status)
+                StorageService.setToken(response?.data).then(() => {
+                    dispatch(GeneralAction.setToken(response?.data));
+                });
                 setErrorMessage('')
             } else {
                 setErrorMessage(response?.message);
@@ -70,17 +78,17 @@ const LoginScreen = ({ navigation }) => {
     const checkUserExist = async (type, value) => {
         if (value?.length > 0) {
             await AuthenticationService.checkUserExist(type, value)
-            .then(response => {
-                if (!response.status) {
-                    type === 'email' && existErrorMessage
-                    ? setExistErrorMessage('') : null;
-                    type === 'email' ? setEmailState('valid') : null;
-                } else {
-                    type === 'email' ?
-                    setExistErrorMessage("Email not found") : null;
-                    type === 'email' ? setEmailState('invalid') : null;
-                }
-            })
+                .then(response => {
+                    if (!response.status) {
+                        type === 'email' && existErrorMessage
+                            ? setExistErrorMessage('') : null;
+                        type === 'email' ? setEmailState('valid') : null;
+                    } else {
+                        type === 'email' ?
+                            setExistErrorMessage("Email not found") : null;
+                        type === 'email' ? setEmailState('invalid') : null;
+                    }
+                })
         }
     }
 
@@ -104,9 +112,9 @@ const LoginScreen = ({ navigation }) => {
                             style={styles.txtInput}
                             keyboardType="email-address"
                             onChangeText={(text) => setEmail(text)}
-                            onEndEditing={({ nativeEvent: {text}}) =>
-                            checkUserExist('email', text) &&
-                            firstInput.current.focus() } />
+                            onEndEditing={({ nativeEvent: { text } }) =>
+                                checkUserExist('email', text) &&
+                                firstInput.current.focus()} />
                     </View>
                 </LinearGradient>
 
@@ -130,9 +138,9 @@ const LoginScreen = ({ navigation }) => {
                     <LinearGradient
                         start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}
                         style={styles.logButton}>
-                        {loading ? 
-                        <LottieView source={Images.LOADING} autoPlay/> :
-                        <Text style={styles.logBtnTxt}>LOGIN</Text>}
+                        {loading ?
+                            <LottieView source={Images.LOADING} autoPlay /> :
+                            <Text style={styles.logBtnTxt}>LOGIN</Text>}
                     </LinearGradient>
                 </TouchableOpacity>
 
@@ -146,9 +154,29 @@ const LoginScreen = ({ navigation }) => {
                 </View>
                 <Seperator height={70} />
                 <Pressable
-                    onLongPress={() => navigation.navigate('Main')}>
+                    onLongPress={() => setModalVisible(true)}>
                     <Thumb height={70} width={70} />
                 </Pressable>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Place your finger on Phone Sensor</Text>
+                            <Thumb height={70} width={70} />
+                            <Pressable
+                                style={styles.buttonClose}
+                                onPress={() => setModalVisible(!modalVisible)}
+                            >
+                                <Text style={styles.textStyle}>back</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
+
             </View>
         </View>
     );
@@ -226,7 +254,48 @@ const styles = StyleSheet.create({
         color: Colors.DEFAULT_RED,
         lineHeight: 10 * 1.4,
         marginVertical: 5
+    },
+
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 333
       },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      buttonClose: {
+        backgroundColor: "#11F542",
+        position: 'absolute',
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        bottom: 50
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        color: "#40AFFF",
+        fontFamily: Fonts.POPPINS_MEDIUM
+      }
 });
 
 export default LoginScreen;

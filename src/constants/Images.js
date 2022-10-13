@@ -16,6 +16,6 @@ export default {
     UBDHIH: require("../assets/images/ubdhih.jpg"),
     DAWOOD: require("../assets/images/dawood.jpg"),
     CHINA: require("../assets/images/china.jpg"),
-    CROSS: require("../assets/images/cross.png"),
     LOADING: require("../assets/images/loadingwhite.json"),
+    CLOSE: require("../assets/images/closeW.png"),
 };

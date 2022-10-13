@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal, StyleSheet, Text, Pressable, View, StatusBar, Image, TouchableOpacity
 } from "react-native";
@@ -12,8 +12,16 @@ import Bookmark from '../assets/images/bookmark.svg';
 import Feedback from '../assets/images/feedback.svg';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
+    
   const [modalVisible, setModalVisible] = useState(true);
+
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     setModalVisible(true)
+  //   });
+  //   return unsubscribe;
+  // })
   return (
     <View style={styles.centeredView}>
       <StatusBar
@@ -31,17 +39,17 @@ const ProfileScreen = () => {
 
         <View style={styles.centeredView}>
           <LinearGradient style={styles.linear}
-            start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}>
+            start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} colors={['#11F542', '#40AFFF',]}>
 
             <View style={styles.modalView}>
 
               <TouchableOpacity
-                style={styles.buttonClose}
+                style={styles.close}
                 onPress={() => setModalVisible(!modalVisible)} >
-                <Image source={Images.CROSS} height={50} width={50} />
+                <Image source={Images.CLOSE} height={10} width={10}/>
               </TouchableOpacity>
             </View>
-
+            <Seperator height={30} />
             <View style={styles.proImageContainer}>
               <View style={styles.mainRound}>
                 <View style={styles.round} />
@@ -222,6 +230,10 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  close: {
+    top: 10,
+    right:10
+  }
 });
 
 export default ProfileScreen;
