@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     View, Text, StyleSheet, TextInput, StatusBar,
-    TouchableOpacity, Pressable, Modal
+    TouchableOpacity, Pressable
 } from 'react-native';
 import Masjid from '../assets/images/masjidlog.svg';
 import { Seperator } from '../components';
@@ -11,9 +11,10 @@ import Thumb from '../assets/images/thumb.svg';
 import LinearGradient from 'react-native-linear-gradient';
 import AuthenticationService from '../services/AuthenticationService';
 import LottieView from 'lottie-react-native';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { GeneralAction } from '../actions';
 import StorageService from '../services/StorageService';
+import TouchID from 'react-native-touch-id';
 
 const inputStyle = state => {
     switch (state) {
@@ -42,7 +43,7 @@ const inputStyle = state => {
     }
 }
 
-const LoginScreen = ({ navigation}) => {
+const LoginScreen = ({ navigation }) => {
 
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false)
@@ -50,7 +51,7 @@ const LoginScreen = ({ navigation}) => {
     const [password, setPassword] = useState('');
     const [existErrorMessage, setExistErrorMessage] = useState('');
     const [emailState, setEmailState] = useState('default');
-    const [modalVisible, setModalVisible] = useState(false);
+    const [isAuth, setIsAuth] = useState(false);
 
     const dispatch = useDispatch();
     const firstInput = useRef();
@@ -90,6 +91,44 @@ const LoginScreen = ({ navigation}) => {
                     }
                 })
         }
+    };
+
+    const optionalConfigObject = {
+        title: 'Authentication Required', // Android
+        imageColor: '#11F542', // Android
+        imageErrorColor: '#ff0000', // Android
+        sensorDescription: 'Touch sensor', // Android
+        sensorErrorDescription: 'Failed', // Android
+        cancelText: 'Cancel', // Android
+        fallbackLabel: 'Show Passcode', // iOS (if empty, then label is hidden)
+        unifiedErrors: false, // use unified error messages (default false)
+        passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
+    };
+
+    useEffect(() => {
+        isAuth ? dispatch(GeneralAction.setToken('true')) : null;
+    });
+
+    const handleBiometric = () => {
+        TouchID.isSupported(optionalConfigObject).then(biometryType => {
+            if (biometryType === 'FaceID') {
+                console.log('FaceID is supported.');
+            } else {
+                console.log('TouchID is supported.');
+
+                TouchID.authenticate('', optionalConfigObject)
+                    .then(success => {
+                        setIsAuth(success);
+                    })
+                    .catch(error => {
+                        console.log('Error',error);
+                    });
+
+            }
+        })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     return (
@@ -154,28 +193,9 @@ const LoginScreen = ({ navigation}) => {
                 </View>
                 <Seperator height={70} />
                 <Pressable
-                    onLongPress={() => setModalVisible(true)}>
+                    onPress={() => handleBiometric()}>
                     <Thumb height={70} width={70} />
                 </Pressable>
-
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Place your finger on Phone Sensor</Text>
-                            <Thumb height={70} width={70} />
-                            <Pressable
-                                style={styles.buttonClose}
-                                onPress={() => setModalVisible(!modalVisible)}
-                            >
-                                <Text style={styles.textStyle}>back</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                </Modal>
 
             </View>
         </View>
@@ -261,8 +281,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 333
-      },
-      modalView: {
+    },
+    modalView: {
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
@@ -270,32 +290,32 @@ const styles = StyleSheet.create({
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
-          width: 0,
-          height: 2
+            width: 0,
+            height: 2
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5
-      },
-      buttonClose: {
+    },
+    buttonClose: {
         backgroundColor: "#11F542",
         position: 'absolute',
         borderRadius: 20,
         padding: 10,
         elevation: 2,
         bottom: 50
-      },
-      textStyle: {
+    },
+    textStyle: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
-      },
-      modalText: {
+    },
+    modalText: {
         marginBottom: 15,
         textAlign: "center",
         color: "#40AFFF",
         fontFamily: Fonts.POPPINS_MEDIUM
-      }
+    }
 });
 
 export default LoginScreen;
