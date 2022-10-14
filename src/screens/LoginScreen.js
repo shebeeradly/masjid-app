@@ -11,7 +11,7 @@ import Thumb from '../assets/images/thumb.svg';
 import LinearGradient from 'react-native-linear-gradient';
 import AuthenticationService from '../services/AuthenticationService';
 import LottieView from 'lottie-react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { GeneralAction } from '../actions';
 import StorageService from '../services/StorageService';
 

@@ -11,7 +11,7 @@ import { Display } from '../utils';
 import LinearGradient from 'react-native-linear-gradient';
 import AuthenticationService from '../services/AuthenticationService';
 import LottieView from 'lottie-react-native';
-import {useDispatch,useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { GeneralAction } from '../actions';
 import StorageService from '../services/StorageService';
 
@@ -75,13 +75,23 @@ const RegisterScreen = ({ navigation, setToken }) => {
           setErrorMessage('')
           setLoading(true)
           AuthenticationService.register(user).then(response => {
-           
+
             if (response?.status) {
               setLoading(false)
+              isEnabled 
+              ?              
+              StorageService.setFirstTimeUse().then(() => {
+                dispatch(GeneralAction.setIsFirstTimeUse())
+              }) &&
+              StorageService.setToken(response?.data).then(() => {
+                dispatch(GeneralAction.setToken(response?.data));
+              }) 
+              :             
               dispatch(GeneralAction.setToken(response?.data));
               StorageService.setFirstTimeUse().then(() => {
                 dispatch(GeneralAction.setIsFirstTimeUse())
               })
+
             } else {
               setErrorMessage(response?.message)
             }
@@ -171,7 +181,7 @@ const RegisterScreen = ({ navigation, setToken }) => {
               <TextInput placeholder='Password'
                 secureTextEntry={true}
                 style={styles.textTouchWidth}
-                ref={firstInput}               
+                ref={firstInput}
                 onChangeText={(text) => setPassword(text)}
                 onEndEditing={() => secondInput.current.focus()} />
             </View>
