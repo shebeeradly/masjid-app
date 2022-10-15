@@ -78,7 +78,7 @@ const CollectionScreen = ({navigation}) => {
 
         <Seperator height={20} />
         <TouchableOpacity 
-        // onPress={() => navigation.navigate('Main')}
+        onPress={() => navigation.navigate('AddPhoto')}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}

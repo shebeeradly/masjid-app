@@ -3,10 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
     SplashScreen, WelcomeScreen, ForgotPassword,
-    LoginScreen, RegisterScreen, MainScreen
+    LoginScreen, RegisterScreen,
 } from '../screens';
 import { useSelector, useDispatch } from "react-redux";
 import { GeneralAction } from '../actions';
+import HomeScreen from './HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,7 @@ const Navigators = () => {
 
     useEffect(() => {
         dispatch(GeneralAction.appStart());
-    },[])
+    }, [])
 
     return (
         <NavigationContainer>
@@ -32,14 +33,14 @@ const Navigators = () => {
                         !token || token === null || token === '' ? (
                             <>
                                 {isFirstTimeUse && (
-                                    <Stack.Screen name="Welcome" component={WelcomeScreen} />
+                                    <Stack.Screen name="Register" component={RegisterScreen} />
                                 )}
+                                <Stack.Screen name="Welcome" component={WelcomeScreen} />
                                 <Stack.Screen name="Login" component={LoginScreen} />
-                                <Stack.Screen name="Register" component={RegisterScreen} />
                                 <Stack.Screen name="Forgot" component={ForgotPassword} />
                             </>
                         ) : (
-                            <Stack.Screen name="Main" component={MainScreen} />
+                            <Stack.Screen name="Home" component={HomeScreen} />
                         )
                 }
             </Stack.Navigator>

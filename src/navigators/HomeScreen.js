@@ -1,19 +1,17 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import ProfileScreen from './ProfileScreen';
-import SettingScreen from './SettingScreen';
-import CollectionScreen from './CollectionScreen';
-import BookMark from './BookMark';
 import Icoprofile from '../assets/images/icoprofile.svg';
 import Bookmark from '../assets/images/bookmark.svg';
 import Collection from '../assets/images/collection.svg';
 import Icosettings from '../assets/images/icosettings.svg';
 import LinearGradient from 'react-native-linear-gradient';
 import { View } from 'react-native';
+import { BookMark,ProfileScreen, SettingScreen } from '../screens';
+import CollectionMainScreen from './CollectionMainScreen';
 
 const Tab = createBottomTabNavigator();
 
-function MainScreen() {
+function HomeScreen() {
   return (
     <Tab.Navigator 
     screenOptions={{headerShown: false ,
@@ -36,7 +34,7 @@ function MainScreen() {
       options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(
         <Bookmark width={23} height={23} />
        )}} />
-      <Tab.Screen name="Collection" component={CollectionScreen} 
+      <Tab.Screen name="CollectionMain" component={CollectionMainScreen} 
       options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(
         <Collection width={23} height={23} />
        ), tabBarStyle:{display:'none'}, }} />
@@ -48,4 +46,4 @@ function MainScreen() {
   );
 }
 
-export default MainScreen;
+export default HomeScreen;

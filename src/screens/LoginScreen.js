@@ -46,12 +46,12 @@ const inputStyle = state => {
 const LoginScreen = ({ navigation }) => {
 
     const [errorMessage, setErrorMessage] = useState('');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false) // lottie
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [existErrorMessage, setExistErrorMessage] = useState('');
     const [emailState, setEmailState] = useState('default');
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAuth, setIsAuth] = useState(false); // finger
 
     const dispatch = useDispatch();
     const firstInput = useRef();
@@ -93,6 +93,7 @@ const LoginScreen = ({ navigation }) => {
         }
     };
 
+//< finger sensor react native touch id
     const optionalConfigObject = {
         title: 'Authentication Required', // Android
         imageColor: '#11F542', // Android
@@ -130,6 +131,7 @@ const LoginScreen = ({ navigation }) => {
                 console.log(error);
             });
     }
+//finger sensor >
 
     return (
         <View style={styles.main}>
@@ -275,47 +277,7 @@ const styles = StyleSheet.create({
         lineHeight: 10 * 1.4,
         marginVertical: 5
     },
-
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 333
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-    },
-    buttonClose: {
-        backgroundColor: "#11F542",
-        position: 'absolute',
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-        bottom: 50
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center",
-        color: "#40AFFF",
-        fontFamily: Fonts.POPPINS_MEDIUM
-    }
+   
 });
 
 export default LoginScreen;
