@@ -11,7 +11,7 @@ import Thumb from '../assets/images/thumb.svg';
 import LinearGradient from 'react-native-linear-gradient';
 import AuthenticationService from '../services/AuthenticationService';
 import LottieView from 'lottie-react-native';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { GeneralAction } from '../actions';
 import StorageService from '../services/StorageService';
 import TouchID from 'react-native-touch-id';
@@ -53,6 +53,9 @@ const LoginScreen = ({ navigation }) => {
     const [emailState, setEmailState] = useState('default');
     const [isAuth, setIsAuth] = useState(false); // finger
 
+    const { isFirstTimeUse } = useSelector(
+        state => state?.generalState,
+    );
     const dispatch = useDispatch();
     const firstInput = useRef();
 
@@ -93,7 +96,7 @@ const LoginScreen = ({ navigation }) => {
         }
     };
 
-//< finger sensor react native touch id
+    //< finger sensor react native touch id
     const optionalConfigObject = {
         title: 'Authentication Required', // Android
         imageColor: '#11F542', // Android
@@ -122,7 +125,7 @@ const LoginScreen = ({ navigation }) => {
                         setIsAuth(success);
                     })
                     .catch(error => {
-                        console.log('Error',error);
+                        console.log('Error', error);
                     });
 
             }
@@ -131,7 +134,7 @@ const LoginScreen = ({ navigation }) => {
                 console.log(error);
             });
     }
-//finger sensor >
+    //finger sensor >
 
     return (
         <View style={styles.main}>
@@ -141,6 +144,10 @@ const LoginScreen = ({ navigation }) => {
             <Seperator height={StatusBar.currentHeight} />
             <Masjid width={40} height={40} style={styles.logo} />
             <Seperator height={10} />
+            {
+                isFirstTimeUse ?
+                    <Seperator height={111} /> : null
+            }
             <View style={styles.container}>
                 <Text style={styles.heading}>Login</Text>
                 <Seperator height={111} />
@@ -194,10 +201,14 @@ const LoginScreen = ({ navigation }) => {
                         onPress={() => navigation.navigate('Forgot')}>Forgot Password</Text>
                 </View>
                 <Seperator height={70} />
-                <Pressable
-                    onPress={() => handleBiometric()}>
-                    <Thumb height={70} width={70} />
-                </Pressable>
+
+                {
+                    !isFirstTimeUse ?
+                        <Pressable
+                            onPress={() => handleBiometric()}>
+                            <Thumb height={70} width={70} />
+                        </Pressable> : null
+                }
 
             </View>
         </View>
@@ -277,7 +288,7 @@ const styles = StyleSheet.create({
         lineHeight: 10 * 1.4,
         marginVertical: 5
     },
-   
+
 });
 
 export default LoginScreen;
