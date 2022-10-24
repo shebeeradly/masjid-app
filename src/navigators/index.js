@@ -3,11 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
     SplashScreen, WelcomeScreen, ForgotPassword,
-    LoginScreen, RegisterScreen,
+    LoginScreen, RegisterScreen, PhoneScreen,
 } from '../screens';
 import { useSelector, useDispatch } from "react-redux";
 import { GeneralAction } from '../actions';
-import HomeScreen from './HomeScreen';
+import DrawerScreen from './DrawerScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,9 +38,10 @@ const Navigators = () => {
                                 <Stack.Screen name="Login" component={LoginScreen} />
                                 <Stack.Screen name="Register" component={RegisterScreen} />
                                 <Stack.Screen name="Forgot" component={ForgotPassword} />
+                                <Stack.Screen name="Phone" component={PhoneScreen} />
                             </>
                         ) : (
-                            <Stack.Screen name="Home" component={HomeScreen} />
+                            <Stack.Screen name="Drawer" component={DrawerScreen} />
                         )
                 }
             </Stack.Navigator>

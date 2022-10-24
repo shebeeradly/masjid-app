@@ -77,19 +77,20 @@ const RegisterScreen = ({ navigation, setToken }) => {
           AuthenticationService.register(user).then(response => {
 
             if (response?.status) {
-              setLoading(false)
+              setLoading(false);             
               isEnabled 
               ?              
               StorageService.setFirstTimeUse().then(() => {
-                dispatch(GeneralAction.setIsFirstTimeUse())
-              }) &&
+                dispatch(GeneralAction.setIsFirstTimeUse());
+              }) 
+              &&
               StorageService.setToken(response?.data).then(() => {
                 dispatch(GeneralAction.setToken(response?.data));
               }) 
-              :             
+              :            
               dispatch(GeneralAction.setToken(response?.data));
               StorageService.setFirstTimeUse().then(() => {
-                dispatch(GeneralAction.setIsFirstTimeUse())
+                dispatch(GeneralAction.setIsFirstTimeUse());
               })
 
             } else {
@@ -150,7 +151,9 @@ const RegisterScreen = ({ navigation, setToken }) => {
         barStyle='dark-content'
         backgroundColor={Colors.DEFAULT_WHITE} />
       <Seperator height={StatusBar.currentHeight} />
+      <TouchableOpacity onPress={() => navigation.navigate('Phone')}>
       <Masjid width={40} height={40} style={styles.logo} />
+      </TouchableOpacity>
       <Seperator height={5} />
       <View style={styles.container}>
         <Text style={styles.heading}>Register</Text>

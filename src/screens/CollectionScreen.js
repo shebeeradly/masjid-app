@@ -1,7 +1,7 @@
 import React from 'react';
-import { 
+import {
   View, Text, StyleSheet, TextInput, StatusBar, TouchableOpacity, ScrollView, KeyboardAvoidingView
- } from 'react-native';
+} from 'react-native';
 import Masjid from '../assets/images/masjidlog.svg';
 import LeftArrow from '../assets/images/leftarrow.svg';
 import { Seperator } from '../components';
@@ -9,7 +9,7 @@ import { Colors, Fonts } from '../constants';
 import { Display } from '../utils';
 import LinearGradient from 'react-native-linear-gradient';
 
-const CollectionScreen = ({navigation}) => {
+const CollectionScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.main}>
       <StatusBar
@@ -23,12 +23,12 @@ const CollectionScreen = ({navigation}) => {
           style={styles.linearInput}>
           <View style={styles.inputSearchContainer}>
             <TouchableOpacity
-            onPress={() => navigation.navigate('Book')}>
-            <LeftArrow width={30} height={30} marginHorizontal={3} />
+              onPress={() => navigation.navigate('Book')}>
+              <LeftArrow width={30} height={30} marginHorizontal={3} />
             </TouchableOpacity>
             <TextInput placeholder='Search here'
               style={styles.searchTxtInput} />
-            <Masjid width={40} height={40} marginHorizontal={5}/>
+            <Masjid width={40} height={40} marginHorizontal={5} />
           </View>
         </LinearGradient>
       </View>
@@ -44,7 +44,7 @@ const CollectionScreen = ({navigation}) => {
           style={styles.emailInput}>
           <View style={styles.inputContainer}>
             <TextInput placeholder='Location'
-            style={styles.txtInpt} />
+              style={styles.txtInpt} />
           </View>
         </LinearGradient>
 
@@ -55,30 +55,30 @@ const CollectionScreen = ({navigation}) => {
           style={styles.emailInput}>
           <View style={styles.inputContainer}>
             <TextInput placeholder='Name'
-            style={styles.txtInpt} />
+              style={styles.txtInpt} />
           </View>
         </LinearGradient>
 
         <Seperator height={20} />
         <KeyboardAvoidingView>
-        <LinearGradient
-          start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}
-          style={styles.briefInput}>
-          <View style={styles.briefContainer}>
-            <TextInput
-              multiline={true}
-              placeholder={'Notes \n (Brief about the masjid) \n (History / Incidents)'}
-              textAlign={'center'}
-              style={styles.textInput}
-            />
+          <LinearGradient
+            start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}
+            style={styles.briefInput}>
+            <View style={styles.briefContainer}>
+              <TextInput
+                multiline={true}
+                placeholder={'Notes \n (Brief about the masjid) \n (History / Incidents)'}
+                textAlign={'center'}
+                style={styles.textInput}
+              />
 
-          </View>
-        </LinearGradient>
+            </View>
+          </LinearGradient>
         </KeyboardAvoidingView>
 
         <Seperator height={20} />
-        <TouchableOpacity 
-        onPress={() => navigation.navigate('AddPhoto')}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AddPhoto')}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}
@@ -92,7 +92,7 @@ const CollectionScreen = ({navigation}) => {
         <Seperator height={45} />
 
         <TouchableOpacity
-        onPress={() => navigation.navigate('Settings')}
+          onPress={() => navigation.navigate('Settings')}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}
