@@ -1,94 +1,76 @@
-import React from 'react';
+import React from "react";
 import {
-   View, ScrollView, StyleSheet, TextInput, StatusBar, FlatList, TouchableOpacity 
- } from 'react-native';
-import { MainCard, Seperator, MainCard1, MainCard2 } from '../components';
+  StyleSheet, TextInput, View, StatusBar,
+} from "react-native";
+import { Seperator } from "../components";
+import { Colors, Fonts } from "../constants";
+import { Display } from "../utils";
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import LinearGradient from 'react-native-linear-gradient';
-import { Colors} from '../constants';
-import { Display } from '../utils';
 import Masjid from '../assets/images/masjidlog.svg';
 import LeftArrow from '../assets/images/leftarrow.svg';
-import General from '../constants/General';
 
-const BookMark = ({navigation}) => {
+const HomeScreen = () => {
 
   return (
-    <View style={styles.main}>
-      <StatusBar
+    <View style={styles.centeredView}>
+      <StatusBar  backgroundColor="transparent"
         barStyle='dark-content'
-        backgroundColor={Colors.DEFAULT_WHITE} />
+        translucent/>
       <Seperator height={StatusBar.currentHeight} />
+
+      <View style={styles.container}>
+        <MapView
+          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          style={styles.map}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+        >
+        </MapView>
+      </View>
 
       <View style={styles.searchContainerMain}>
         <LinearGradient
           start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}
           style={styles.linearInput}>
           <View style={styles.inputSearchContainer}>
-            <TouchableOpacity
-            onPress={() => navigation.navigate('Profile')} >
-            <LeftArrow width={30} height={30} marginHorizontal={3} />
-            </TouchableOpacity>
+            <View >
+              <LeftArrow width={30} height={30} marginHorizontal={3} />
+            </View>
             <TextInput placeholder='Search here'
               style={styles.searchTxtInput} />
             <Masjid width={40} height={40} marginHorizontal={5} />
           </View>
         </LinearGradient>
       </View>
-      <Seperator height={30} />
 
-      <ScrollView style={styles.main}>
-        <View style={styles.firstFlat}>
-          <FlatList
-            data={General.WELCOME_CONTENTS}
-            keyExtractor={item => item.image}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => <MainCard {...item} />}
-          />
-        </View>
-
-        <Seperator height={10} />
-
-        <View style={styles.firstFlat}>
-          <FlatList
-            data={General.WELCOME_CONTENTS}
-            keyExtractor={item => item.image}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => <MainCard1 {...item}
-            onPress={() => navigation.navigate('Collection')} />}
-          />
-        </View>
-
-        <Seperator height={10} />
-
-        <View style={styles.firstFlat}>
-          <FlatList
-            data={General.WELCOME_CONTENTS}
-            keyExtractor={item => item.image}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => 
-            <MainCard2 {...item} />}
-          />
-        </View>
-
-      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    ...StyleSheet.absoluteFillObject,
+    height: Display.setHeight(100),
+    width: Display.setWidth(100),
     alignItems: 'center',
-  }, main: {
-    flex: 1,
-    backgroundColor: Colors.DEFAULT_WHITE,
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
   searchContainerMain: {
-    alignItems: 'center'
+    alignItems: 'center',
+    bottom: 300
   },
   searchContainer: {
     flexDirection: 'row',
@@ -117,9 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 10
   },
-  firstFlat: {
-    flex: 1,
-  }
+
 });
 
-export default BookMark;
+export default HomeScreen;

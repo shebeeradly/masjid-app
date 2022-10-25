@@ -5,8 +5,6 @@ import {
 import { Seperator } from "../components";
 import { Colors, Fonts} from "../constants";
 import { Display } from "../utils";
-
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch} from 'react-redux';
 import {GeneralAction} from '../actions';
@@ -18,40 +16,14 @@ const SettingScreen = () => {
 
   const logout = () => {
     dispatch(GeneralAction.setToken(''));
-    // StorageService.setToken('').then(() => {
-    //   dispatch(GeneralAction.setToken(''));
-    //   dispatch(GeneralAction.setUserData(null));
-    // });
   };
     
- 
-
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     setModalVisible(true)
-  //   });
-  //   return unsubscribe;
-  // })
   return (
     <View style={styles.centeredView}>
       <StatusBar
         barStyle='dark-content'
         backgroundColor={Colors.DEFAULT_WHITE} />
       <Seperator height={StatusBar.currentHeight} />
-
-      <View style={styles.container}>
-        <MapView
-          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-          style={styles.map}
-          region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}
-        >
-        </MapView>
-      </View>
 
       <View style={styles.sectionContainer}>
           <TouchableOpacity
@@ -77,25 +49,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    height: Display.setHeight(70),
-    width: Display.setWidth(100),
-    left: 7,
-    alignItems: 'center',
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
   close: {
     top: 10,
     right:10
   },
   sectionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 15,
+    top: 250,
   },
   sectionTextContainer: {
     flexDirection: 'row',

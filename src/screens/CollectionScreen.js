@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View, Text, StyleSheet, TextInput, StatusBar, TouchableOpacity, ScrollView, KeyboardAvoidingView
 } from 'react-native';
@@ -10,13 +10,19 @@ import { Display } from '../utils';
 import LinearGradient from 'react-native-linear-gradient';
 
 const CollectionScreen = ({ navigation }) => {
+  const [masjidLocation, setMasjidLocation] = useState('');
+  const [masjidName, setMasjidName] = useState('');
+  const [description, setDescription] = useState('');
+
+  const firstInput = useRef();
+  const secondInput = useRef();
   return (
     <ScrollView style={styles.main}>
-      <StatusBar
+      <StatusBar translucent
         barStyle='dark-content'
         backgroundColor={Colors.DEFAULT_WHITE} />
       <Seperator height={StatusBar.currentHeight} />
-
+      <Seperator height={20} />
       <View style={styles.searchContainerMain}>
         <LinearGradient
           start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}
@@ -44,7 +50,9 @@ const CollectionScreen = ({ navigation }) => {
           style={styles.emailInput}>
           <View style={styles.inputContainer}>
             <TextInput placeholder='Location'
-              style={styles.txtInpt} />
+              style={styles.txtInpt}
+              onEndEditing={() => firstInput.current.focus()}
+              onChangeText={(text) => setMasjidLocation(text)} />
           </View>
         </LinearGradient>
 
@@ -55,7 +63,10 @@ const CollectionScreen = ({ navigation }) => {
           style={styles.emailInput}>
           <View style={styles.inputContainer}>
             <TextInput placeholder='Name'
-              style={styles.txtInpt} />
+              style={styles.txtInpt}
+              ref={firstInput}
+              onEndEditing={() => secondInput.current.focus()}
+              onChangeText={(text) => setMasjidName(text)} />
           </View>
         </LinearGradient>
 
@@ -70,6 +81,8 @@ const CollectionScreen = ({ navigation }) => {
                 placeholder={'Notes \n (Brief about the masjid) \n (History / Incidents)'}
                 textAlign={'center'}
                 style={styles.textInput}
+                ref={secondInput}
+                onChangeText={(text) => setDescription(text)}
               />
 
             </View>
@@ -78,7 +91,9 @@ const CollectionScreen = ({ navigation }) => {
 
         <Seperator height={20} />
         <TouchableOpacity
-          onPress={() => navigation.navigate('AddPhoto')}
+          onPress={() => 
+            navigation.navigate('AddPhoto', 
+            {masjidLocation, masjidName, description})}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}

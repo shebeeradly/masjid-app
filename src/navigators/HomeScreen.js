@@ -1,13 +1,15 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icoprofile from '../assets/images/icoprofile.svg';
 import Bookmark from '../assets/images/bookmark.svg';
 import Collection from '../assets/images/collection.svg';
 import Icosettings from '../assets/images/icosettings.svg';
 import LinearGradient from 'react-native-linear-gradient';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { BookMark,ProfileScreen, SettingScreen } from '../screens';
 import CollectionMainScreen from './CollectionMainScreen';
+import { Images } from '../constants';
+// import Homesvg from '../assets/images/home.svg';
+// import Icoprofile from '../assets/images/icoprofile.svg';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +30,7 @@ function HomeScreen() {
      }} >
       <Tab.Screen name="Profile" component={ProfileScreen}
          options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(
-          <Icoprofile width={23} height={23} />
+          <Image source={Images.HOME} height={30} width={30} />
          )}} />
       <Tab.Screen name="Book" component={BookMark}
       options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(

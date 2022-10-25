@@ -18,4 +18,5 @@ export default {
     CHINA: require("../assets/images/china.jpg"),
     LOADING: require("../assets/images/loadingwhite.json"),
     CLOSE: require("../assets/images/closeW.png"),
+    HOME: require("../assets/images/houselast.png"),
 };
