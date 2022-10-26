@@ -2,7 +2,7 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from './HomeScreen';
 import {
-  StyleSheet, Text, View, StatusBar, Image, TouchableOpacity
+  StyleSheet, Text, View, Image, TouchableOpacity
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Seperator } from "../components";
@@ -18,21 +18,22 @@ const Drawer = createDrawerNavigator();
 
 const DrawerScreen = () => {
   return (
-    <Drawer.Navigator screenOptions={{headerShown : false}}
+    <Drawer.Navigator drawerHideStatusBarOnOpen={true}
+      screenOptions={{ headerShown: false }}
       drawerContent={({ state, navigation, descriptors }) => {
         return (
           <View style={styles.centeredView}>
             <LinearGradient style={styles.linear}
               start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} colors={['#11F542', '#40AFFF',]}>
-
+              <Seperator height={30} />
               <View style={styles.modalView}>
 
-                <TouchableOpacity 
-                onPress={() => navigation.closeDrawer()}
+                <TouchableOpacity
+                  onPress={() => navigation.closeDrawer()}
                   style={styles.close}
                 >
                   <Image source={Images.CLOSE}
-                   height={10} width={10} style={{top: 10 , right: 10}} />
+                    height={10} width={10} style={{ top: 10, right: 10 }} />
                 </TouchableOpacity>
               </View>
               <Seperator height={111} />
@@ -49,52 +50,52 @@ const DrawerScreen = () => {
               <Seperator height={77} />
 
               <View style={styles.navContainer}>
-              <TouchableOpacity
-              onPress={() => navigation.navigate('Profile')}>
-              <View style={styles.lowerContainer}>
-                <Icoprofile width={25} height={25} />
-                <Text style={styles.lowerText}>Profile</Text>
-              </View>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Profile')}>
+                  <View style={styles.lowerContainer}>
+                    <Icoprofile width={25} height={25} />
+                    <Text style={styles.lowerText}>Profile</Text>
+                  </View>
+                </TouchableOpacity>
 
-              <Seperator height={20} />
-              <TouchableOpacity
-              onPress={() => navigation.navigate('Settings')}>
-              <View style={styles.lowerContainer}>
-                <Icosettings width={25} height={25} />
-                <Text style={styles.lowerText}>Settings</Text>
-              </View>
-              </TouchableOpacity>
+                <Seperator height={20} />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Settings')}>
+                  <View style={styles.lowerContainer}>
+                    <Icosettings width={25} height={25} />
+                    <Text style={styles.lowerText}>Settings</Text>
+                  </View>
+                </TouchableOpacity>
 
-              <Seperator height={20} />
+                <Seperator height={20} />
 
-              <TouchableOpacity
-              onPress={() => navigation.navigate('Book')}>
-              <View style={styles.lowerContainer}>
-                <Bookmark width={25} height={25} />
-                <Text style={styles.lowerText}>Bookmark</Text>
-              </View>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Book')}>
+                  <View style={styles.lowerContainer}>
+                    <Bookmark width={25} height={25} />
+                    <Text style={styles.lowerText}>Bookmark</Text>
+                  </View>
+                </TouchableOpacity>
 
-              <Seperator height={20} />
+                <Seperator height={20} />
 
-              <TouchableOpacity
-              onPress={() => navigation.navigate('CollectionMain')}>
-              <View style={styles.lowerContainer}>
-                <Seperator width={30} />
-                <Text style={styles.lowerText}>Add New Masjid</Text>
-              </View>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('CollectionMain')}>
+                  <View style={styles.lowerContainer}>
+                    <Seperator width={30} />
+                    <Text style={styles.lowerText}>Add New Masjid</Text>
+                  </View>
+                </TouchableOpacity>
 
-              <Seperator height={20} />
+                <Seperator height={20} />
 
-              <TouchableOpacity
-              onPress={() => navigation.navigate('Feedback')}>
-              <View style={styles.lowerContainer}>
-                <Feedback width={25} height={25} />
-                <Text style={styles.lowerText}>Feedback</Text>
-              </View>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Feedback')}>
+                  <View style={styles.lowerContainer}>
+                    <Feedback width={25} height={25} />
+                    <Text style={styles.lowerText}>Feedback</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
 
             </LinearGradient>
@@ -117,8 +118,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end'
   },
   linear: {
-    height: Display.setHeight(100),
-    width: '100%'
+    height: '100%',
+    width: '100%',
   },
   proImageContainer: {
     alignItems: 'center'

@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  StyleSheet, TextInput, View, StatusBar,
+  StyleSheet, TextInput, View, StatusBar, TouchableOpacity, KeyboardAvoidingView
 } from "react-native";
 import { Seperator } from "../components";
 import { Colors, Fonts } from "../constants";
@@ -10,15 +10,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import Masjid from '../assets/images/masjidlog.svg';
 import LeftArrow from '../assets/images/leftarrow.svg';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.centeredView}>
-      <StatusBar  backgroundColor="transparent"
+      <StatusBar 
+      backgroundColor= 'transparent'
         barStyle='dark-content'
-        translucent/>
+        translucent />
       <Seperator height={StatusBar.currentHeight} />
-
+      
       <View style={styles.container}>
         <MapView
           provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -32,22 +33,23 @@ const HomeScreen = () => {
         >
         </MapView>
       </View>
-
-      <View style={styles.searchContainerMain}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}
-          style={styles.linearInput}>
-          <View style={styles.inputSearchContainer}>
-            <View >
-              <LeftArrow width={30} height={30} marginHorizontal={3} />
+      <KeyboardAvoidingView>
+        <View style={styles.searchContainerMain}>
+          <LinearGradient
+            start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}
+            style={styles.linearInput}>
+            <View style={styles.inputSearchContainer}>
+              <TouchableOpacity
+                onPress={() => navigation.openDrawer()}>
+                <LeftArrow width={30} height={30} marginHorizontal={3} />
+              </TouchableOpacity>
+              <TextInput placeholder='Search here'
+                style={styles.searchTxtInput} />
+              <Masjid width={40} height={40} marginHorizontal={5} />
             </View>
-            <TextInput placeholder='Search here'
-              style={styles.searchTxtInput} />
-            <Masjid width={40} height={40} marginHorizontal={5} />
-          </View>
-        </LinearGradient>
-      </View>
-
+          </LinearGradient>
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -57,6 +59,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    position: 'absolute'
   },
 
   container: {
@@ -66,11 +69,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject, zIndex: -1
   },
   searchContainerMain: {
     alignItems: 'center',
-    bottom: 300
+    marginHorizontal: 7,
+    top: 20
   },
   searchContainer: {
     flexDirection: 'row',
