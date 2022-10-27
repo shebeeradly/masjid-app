@@ -14,7 +14,7 @@ const MainCard1 = ({onPress, image, image7, image2, image5, image13 }) => {
             <LinearGradient style={styles.Card}
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#11F542', '#40AFFF',]}>
                 <Collection width={30} height={30} />
-                <Text numberOfLines={2} style={styles.titleText}>Collection {"\n"} (Added Masjid)</Text>
+                <Text numberOfLines={2} style={styles.titleText}>Collection {"\n"} (Added New Masjid)</Text>
                 <Image source={Images.RIGHTARROW} height={25} width={25} />
             </LinearGradient>
             </TouchableOpacity>
