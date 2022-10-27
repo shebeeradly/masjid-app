@@ -9,20 +9,24 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import LinearGradient from 'react-native-linear-gradient';
 import Masjid from '../assets/images/masjidlog.svg';
 import LeftArrow from '../assets/images/leftarrow.svg';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = ({ navigation }) => {
+  const mapRef = React.createRef();
 
   return (
     <View style={styles.centeredView}>
-      <StatusBar 
-      backgroundColor= 'transparent'
+      <StatusBar
+        backgroundColor='transparent'
         barStyle='dark-content'
         translucent />
       <Seperator height={StatusBar.currentHeight} />
-      
+
       <View style={styles.container}>
         <MapView
           provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          ref={mapRef}
           style={styles.map}
           region={{
             latitude: 37.78825,
@@ -32,6 +36,19 @@ const HomeScreen = ({ navigation }) => {
           }}
         >
         </MapView>
+        <MaterialIcons
+          style={styles.myLocationIcon}
+          name="my-location"
+          size={50}
+          onPress={() => {
+            mapRef.current.animateToRegion({
+              latitude: 11.482483,
+              longitude: 75.994465,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            });
+          }}
+        />
       </View>
       <KeyboardAvoidingView>
         <View style={styles.searchContainerMain}>
@@ -41,7 +58,9 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.inputSearchContainer}>
               <TouchableOpacity
                 onPress={() => navigation.openDrawer()}>
-                <LeftArrow width={30} height={30} marginHorizontal={3} />
+                <FontAwesome name='bars' 
+                size={27} style={{left:10}}
+                color="#11F542" />
               </TouchableOpacity>
               <TextInput placeholder='Search here'
                 style={styles.searchTxtInput} />
@@ -69,7 +88,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   map: {
-    ...StyleSheet.absoluteFillObject, zIndex: -1
+    ...StyleSheet.absoluteFillObject,
+    width: '100%',
   },
   searchContainerMain: {
     alignItems: 'center',
@@ -103,6 +123,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 10
   },
+  myLocationIcon: {
+    position: 'absolute',
+    bottom: 100,
+    right: 25,
+    position: 'absolute',
+    bottom: 50
+  }
 
 });
 
